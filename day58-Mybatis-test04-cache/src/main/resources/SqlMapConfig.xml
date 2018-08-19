@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+
+
+	<!-- 使用properties标签引入资源文件 -->
+	<properties resource="jdbcConfig.properties"></properties>
+	
+	<!--
+		1.开启二级缓存   项目支持   默认开启，可以省略不配置 
+		配置开启Mybatis的二级缓存 
+		cacheEnabled默认开启即true,就是开启二级缓存。
+		2.二级缓存dao层支持 
+		配置相关的mapper配置文件时使用二级缓存:<cache/>
+		3.使用二级缓存
+		谁需要用就要配置useCache="true"
+	-->
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- 使用别名 -->
+	<typeAliases>
+		<package name="cn.itcast.domain"/>
+	</typeAliases>
+	
+	<environments default="mysql">
+		<environment id="mysql">
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据源 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}"/>
+				<property name="url" value="${jdbc.url}"/>
+				<property name="username" value="${jdbc.username}"/>
+				<property name="password" value="${jdbc.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 导入映射配置文件 -->
+	<mappers>
+		<!-- <mapper resource="cn/itcast/dao/IUserDao.xml"/> -->
+		<!-- 自动扫描包下所有映射配置文件 -->
+		<package name="cn.itcast.dao"/>
+	</mappers>
+	
+</configuration>

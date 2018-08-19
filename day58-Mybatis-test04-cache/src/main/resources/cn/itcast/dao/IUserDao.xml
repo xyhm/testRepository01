@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="cn.itcast.dao.IUserDao">
+
+	<!-- 保证dao层支持二级缓存 -->
+	<cache/>
+	
+	<!-- 定义公共SQL语句片段 -->
+	<sql id="defaultFindAll">
+		select * from user
+	</sql>
+
+	<!-- 更新用户信息 -->
+	<update id="updateUser" parameterType="user">
+		UPDATE user SET username=#{userUsername}, birthday=#{userBirthday}, sex=#{userSex}, address=#{userAddress} WHERE id = #{userId}
+	</update>
+
+	<!-- 查询所有用户信息 -->
+	<select id="findAll" resultType="user" resultMap="userMap">
+		<!-- SELECT * FROM user; -->
+		<include refid="defaultFindAll"></include>
+	</select>
+	
+	<!-- 根据id查询一个用户 -->
+	<select id="findById" parameterType="int" resultMap="userMap" useCache="true">
+		SELECT * FROM user WHERE id = #{id}
+	</select>
+	
+	<!-- 配置实体类中的属性和表的列的对应关系使用<resultMap>标签 -->
+	<!-- type ：resultmap里面封装的类型  ;  id: 是唯一标识 -->
+	<resultMap type="user" id="userMap">
+		<!-- 主键  对应关系-->
+		<id column="id" property="userId"/>
+		<!-- 其他字段的对应关系 -->
+		<result column="username" property="userUsername"/>
+		<result column="birthday" property="userBirthday"/>
+		<result column="sex" property="userSex"/>
+		<result column="address" property="userAddress"/>
+		<!-- 
+			配置集合属性的对应关系，ofType含义指定集合中元素的数据类型
+			javaType指定属性类型，property指定属性名称
+			select属性：用于指定用对方的哪个配置实现查询功能		
+		 -->
+		 <collection property="accounts" ofType="account" javaType="java.util.List"
+		 select="cn.itcast.dao.IAccountDao.findAccountByUid" column="id" fetchType="lazy"></collection>
+		 
+	</resultMap>
+	
+</mapper>
