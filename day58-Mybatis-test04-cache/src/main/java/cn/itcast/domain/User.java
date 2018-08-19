@@ -85,6 +85,7 @@ public class User implements Serializable {
 	public void setUserUsername(String userUsername) {
 		this.userUsername = userUsername;
 		System.out.println("张三用户管理模块");
+		System.out.println("张三开发公共工具类");
 	}
 
 }
