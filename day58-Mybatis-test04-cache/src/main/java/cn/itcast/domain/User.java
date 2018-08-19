@@ -1,4 +1,4 @@
-package cn.itcast.domain;
+﻿package cn.itcast.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -84,6 +84,7 @@ public class User implements Serializable {
 
 	public void setUserUsername(String userUsername) {
 		this.userUsername = userUsername;
+		System.out.println("张三用户管理模块");
 	}
 
 }
